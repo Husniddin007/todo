@@ -24,10 +24,12 @@ class UserAuthSendCodeView(APIView):
         return Response(status=200)
 
 
-# class UserAuthConfirmCodeView(APIView):
-#
-#     def post(self, request):
-#         serializer = UserAuthConfirmSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#
-#         phone_number = serializer.validated_date['phone_number']
+class UserAuthConfirmCodeView(APIView):
+
+    def post(self, request):
+        serializer = UserAuthConfirmSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        phone_number = serializer.validated_data['phone_number']
+
+
