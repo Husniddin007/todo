@@ -31,5 +31,4 @@ class UserAuthConfirmCodeView(APIView):
         serializer.is_valid(raise_exception=True)
 
         phone_number = serializer.validated_data['phone_number']
-
-
+        return Response(status=200)
