@@ -7,7 +7,7 @@ class UserAuthSendCodeSerializer(serializers.ModelSerializer):
         model = UserAuth
         fields = [
             'name',
-            'phone_nuber',
+            'phone_number',
             'sms_code',
             'confirmed',
             'sent_at',
@@ -15,7 +15,7 @@ class UserAuthSendCodeSerializer(serializers.ModelSerializer):
 
     def validate_phone_number(self, phone_number):
         if User.objects.filter(phone_number=phone_number).exists():
-            raise serializers.ValidationError('Allaqachon bor')
+            raise serializers.ValidationError('Bu nomer mavjud')
         return phone_number
 
 class UserAuthConfirmSerializer(serializers.Serializer):
@@ -28,4 +28,5 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'name',
-            'phone_number', ]
+            'phone_number',
+        ]

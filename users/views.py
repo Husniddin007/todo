@@ -4,6 +4,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .models import UserAuth, User
 from .serializers import UserAuthSendCodeSerializer, UserAuthConfirmSerializer
 from .sms_code_validate import generate_sms_code
 
@@ -14,7 +15,7 @@ class UserAuthSendCodeView(APIView):
         serializer = UserAuthSendCodeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        phone_nuber = serializer.validated_data['phone_nuber']
+        phone_nuber = serializer.validated_data['phone_number']
         # logics to send code
 
         generated_code = generate_sms_code()
@@ -26,9 +27,16 @@ class UserAuthSendCodeView(APIView):
 
 class UserAuthConfirmCodeView(APIView):
 
-    def post(self, request):
-        serializer = UserAuthConfirmSerializer(data=request.data)
+    def post(self, data):
+        serializer = UserAuthConfirmSerializer(data=data.data)
         serializer.is_valid(raise_exception=True)
+        phone_nuber = serializer.validated_data['phone_number']
+        # logics to send code
 
-        phone_number = serializer.validated_data['phone_number']
+        generated_code = generate_sms_code()
+        serializer.save(
+            sms_code=generated_code
+        )
         return Response(status=200)
+
+
