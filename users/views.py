@@ -49,10 +49,11 @@ class UserAuthConfirmCodeView(APIView):
             return Response({"msg": "Vaqt tugadi"})
         if sms_code != user_auth.sms_code:
             return Response({"msg": "Kod noto`g`ri"})
-        user = User.objects.create(
+        user = User.objects.create_user(
+            username=f'user_{phone_number}',
             phone_number=phone_number
         )
-        refresh = RefreshToken(user)
+        refresh = RefreshToken.for_user(user)
         access = refresh.access_token
         user_data = UserSerializer(user).data
 

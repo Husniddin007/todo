@@ -8,7 +8,6 @@ class UserAuthSendCodeSerializer(serializers.ModelSerializer):
         fields = [
             'name',
             'phone_number',
-            'sms_code',
             'confirmed',
             'sent_at',
         ]
@@ -19,6 +18,7 @@ class UserAuthSendCodeSerializer(serializers.ModelSerializer):
         return phone_number
 
 class UserAuthConfirmSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=50)
     phone_number = serializers.CharField(max_length=50)
     sms_code = serializers.CharField(max_length=4)
 
